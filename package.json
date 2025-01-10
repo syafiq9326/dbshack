@@ -1,0 +1,15 @@
+{
+  "name": "dbshack",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm start --prefix react-frontend\"",
+    "dev:backend": "npm run dev --prefix backend",
+    "start": "npm start --prefix react-frontend"
+  },
+  "dependencies": {
+    "axios": "^1.7.9"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
