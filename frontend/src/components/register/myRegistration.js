@@ -1,24 +1,44 @@
-import React, { useState } from "react";
-import { TextField, Button, Paper, Box, Typography } from "@mui/material";
-
+import React, { useEffect, useState } from "react";
+import { TextField, Button, Paper, Box, Typography, Select, MenuItem } from "@mui/material";
+import { axiosInstance } from "../../services/userServices";
+import {useNavigate} from 'react-router-dom'
+ 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    companyID: "",
+    companyId: "",
     name: "",
   });
 
+  const [companiesArr, setCompaniesArr] = useState([]);
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     // sending data to an API?
-    console.log(formData);
+    const response = await axiosInstance.post("/users/register",formData)
+    if(response.status === 200){
+      navigate("/")
+    }else{
+      console.error("Error registering")
+    }
   };
+
+  const fetchCompanyIds = async () => {
+    const response = await axiosInstance.get("/companies");
+    if (response.status === 200) {
+      setCompaniesArr(response.data.companyAccounts); // populate companiesArr
+    }
+  };
+
+  useEffect(() => {
+    fetchCompanyIds();
+  }, []);
 
   return (
     <Paper sx={{ padding: 3, maxWidth: 400, margin: "auto", mt: 5 }}>
@@ -47,16 +67,25 @@ export default function RegisterPage() {
           onChange={handleChange}
           required
         />
-        <TextField
-          label="Company ID"
-          variant="outlined"
+        <Select
+          labelId="company-id-label"
+          id="company-id"
+          name="companyId"
+          value={formData.companyId}
+          onChange={handleChange}
           fullWidth
           margin="normal"
-          name="companyID"
-          value={formData.companyID}
-          onChange={handleChange}
           required
-        />
+        >
+          <MenuItem value="">
+            <em>Select Company</em>
+          </MenuItem>
+          {companiesArr?.map((company) => (
+            <MenuItem key={company._id} value={company._id}>
+              {company.name}
+            </MenuItem>
+          ))}
+        </Select>
         <TextField
           label="Name"
           variant="outlined"

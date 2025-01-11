@@ -39,7 +39,7 @@ app.use(jwt({secret:"TECH_TRACK_JWT_TOKEN",algorithms:["HS256"],getToken:(req)=>
         return req.query.token;
       }
       return null;
-}}).unless({path:["/users/login","/users/register"]}))
+}}).unless({path:["/users/login","/users/register","/companies"]}))
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
