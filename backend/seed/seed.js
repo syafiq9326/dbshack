@@ -2,10 +2,6 @@
 // // const User = require("../models/users");
 // // // const Product = require("../models/product");
 // // const {Product} = require("../models/product");
-const CompanyAccount = require("../models/companyaccount");
-const OutstandingRequest = require("../models/outstandingrequests");
-const RequestReceived = require("../models/requestsreceived.js");
-const User = require("../models/users.js");
 
 // // const seedDatabase = async () => {
 // //     try {
@@ -163,50 +159,50 @@ const User = require("../models/users.js");
 const mongoose = require("mongoose");
 
 // Define CompanyAccount schema
-// const companyAccountSchema = new mongoose.Schema({
-//     companyName: { type: String, required: true, unique: true },
-//     activeAccount: { type: Boolean, required: true },
-//     carbonBalance: { type: Number, required: true },
-//     cashBalance: { type: Number, required: true },
-//     outstandingRequests: [
-//         { type: mongoose.Schema.Types.ObjectId, ref: "OutstandingRequest" }, // References to OutstandingRequest
-//     ],
-//     createdDatetime: { type: Date, default: Date.now },
-//     updatedDatetime: { type: Date, default: Date.now },
-// });
+const companyAccountSchema = new mongoose.Schema({
+    companyName: { type: String, required: true, unique: true },
+    activeAccount: { type: Boolean, required: true },
+    carbonBalance: { type: Number, required: true },
+    cashBalance: { type: Number, required: true },
+    outstandingRequests: [
+        { type: mongoose.Schema.Types.ObjectId, ref: "OutstandingRequest" }, // References to OutstandingRequest
+    ],
+    createdDatetime: { type: Date, default: Date.now },
+    updatedDatetime: { type: Date, default: Date.now },
+});
 
-// // Define OutstandingRequest schema
-// const outstandingRequestSchema = new mongoose.Schema({
-//     companyId: { type: mongoose.Schema.Types.ObjectId, ref: "CompanyAccount", required: true }, // Ref to initiating company
-//     requestorCompanyId: { type: mongoose.Schema.Types.ObjectId, ref: "CompanyAccount", required: true }, // Ref to receiving company
-//     carbonUnitPrice: { type: Number, required: true },
-//     carbonQuantity: { type: Number, required: true },
-//     requestReason: { type: String, required: true },
-//     requestStatus: { type: String, required: true }, // e.g., Pending, Approved
-//     requestType: { type: String, required: true },   // e.g., Buy, Sell
-//     requestReceived: { type: mongoose.Schema.Types.ObjectId, ref: "RequestReceived" }, // One-to-one with RequestReceived
-//     createdDatetime: { type: Date, default: Date.now },
-//     updatedDatetime: { type: Date, default: Date.now },
-// });
+// Define OutstandingRequest schema
+const outstandingRequestSchema = new mongoose.Schema({
+    companyId: { type: mongoose.Schema.Types.ObjectId, ref: "CompanyAccount", required: true }, // Ref to initiating company
+    requestorCompanyId: { type: mongoose.Schema.Types.ObjectId, ref: "CompanyAccount", required: true }, // Ref to receiving company
+    carbonUnitPrice: { type: Number, required: true },
+    carbonQuantity: { type: Number, required: true },
+    requestReason: { type: String, required: true },
+    requestStatus: { type: String, required: true }, // e.g., Pending, Approved
+    requestType: { type: String, required: true },   // e.g., Buy, Sell
+    requestReceived: { type: mongoose.Schema.Types.ObjectId, ref: "RequestReceived" }, // One-to-one with RequestReceived
+    createdDatetime: { type: Date, default: Date.now },
+    updatedDatetime: { type: Date, default: Date.now },
+});
 
-// // Define RequestReceived schema
-// const requestReceivedSchema = new mongoose.Schema({
-//     requestId: { type: mongoose.Schema.Types.ObjectId, ref: "OutstandingRequest", required: true }, // Ref to OutstandingRequest
-//     alertDatetime: { type: Date, required: true },
-//     alertText: { type: String, required: true },
-//     alertStatus: { type: String, required: true }, // e.g., Scheduled, Viewed
-//     alertViewDate: { type: Date },
-//     createdDatetime: { type: Date, default: Date.now },
-//     updatedDatetime: { type: Date, default: Date.now },
-// });
+// Define RequestReceived schema
+const requestReceivedSchema = new mongoose.Schema({
+    requestId: { type: mongoose.Schema.Types.ObjectId, ref: "OutstandingRequest", required: true }, // Ref to OutstandingRequest
+    alertDatetime: { type: Date, required: true },
+    alertText: { type: String, required: true },
+    alertStatus: { type: String, required: true }, // e.g., Scheduled, Viewed
+    alertViewDate: { type: Date },
+    createdDatetime: { type: Date, default: Date.now },
+    updatedDatetime: { type: Date, default: Date.now },
+});
 
-// // Define User schema
-// const userSchema = new mongoose.Schema({
-//     name: { type: String, required: true },
-//     email: { type: String, required: true, unique: true },
-//     password: { type: String, required: true },
-//     companyId: { type: mongoose.Schema.Types.ObjectId, ref: "CompanyAccount" }, // Ref to a company
-// });
+// Define User schema
+const userSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    companyId: { type: mongoose.Schema.Types.ObjectId, ref: "CompanyAccount" }, // Ref to a company
+});
 
 // // Create models
 // const CompanyAccount = mongoose.model("CompanyAccount", companyAccountSchema);
@@ -214,10 +210,10 @@ const mongoose = require("mongoose");
 // const RequestReceived = mongoose.model("RequestReceived", requestReceivedSchema);
 // const User = mongoose.model("User", userSchema);
 
-// const CompanyAccount = mongoose.models.CompanyAccount || mongoose.model("CompanyAccount", companyAccountSchema);
-// const OutstandingRequest = mongoose.models.OutstandingRequest || mongoose.model("OutstandingRequest", outstandingRequestSchema);
-// const RequestReceived = mongoose.models.RequestReceived || mongoose.model("RequestReceived", requestReceivedSchema);
-// const User = mongoose.models.User || mongoose.model("User", userSchema);
+const CompanyAccount = mongoose.models.CompanyAccount  || mongoose.model("CompanyAccount", companyAccountSchema);
+const OutstandingRequest = mongoose.models.OutstandingRequest  || mongoose.model("OutstandingRequest", outstandingRequestSchema);
+const RequestReceived = mongoose.models.RequestReceived  || mongoose.model("RequestReceived", requestReceivedSchema);
+const User = mongoose.models.User  || mongoose.model("User", userSchema);
 
 
 const seedDatabase = async () => {
@@ -230,9 +226,9 @@ const seedDatabase = async () => {
         console.log("Connected to MongoDB");
 
         // Seed Company Accounts
-        const existingCompanies = await CompanyAccount.find();
+        let existingCompanies = await CompanyAccount.find();
         if (existingCompanies.length === 0) {
-            const companies = await CompanyAccount.insertMany([
+            existingCompanies = await CompanyAccount.insertMany([
                 { companyName: "Kemmer, Cronin and Walter", activeAccount: false, carbonBalance: 2147, cashBalance: 547973 },
                 { companyName: "Techtrek Pte Ltd", activeAccount: true, carbonBalance: 9999, cashBalance: 2026000 },
             ]);
@@ -241,7 +237,7 @@ const seedDatabase = async () => {
             console.log("Company accounts already exist. Skipping seeding.");
         }
 
-        // Seed Users
+// Seed Users
         const existingUsers = await User.find();
         if (existingUsers.length === 0) {
             const users = await User.insertMany([
@@ -323,7 +319,7 @@ const seedDatabase = async () => {
             console.log("Requests received already exist. Skipping seeding.");
         }
 
-        // Close connection
+// Close connection
         // mongoose.connection.close();
         // console.log("Database connection closed.");
     } catch (err) {
