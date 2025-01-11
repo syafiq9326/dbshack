@@ -8,6 +8,7 @@ import LandingPage from "./pages/landing";
 import Login from "./pages/login";
 import Productlist from "./pages/protected/productlist";
 import RequestsReceivedPage from "./pages/requestsReceived";
+import RegisterPage from "./pages/register";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/" element={<Login />} />
           <Route path="/productlist" element={<Productlist />} />
           <Route path="/requests-received" element={<RequestsReceived />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
         {/* <Navbar /> */}
         <Routes>
