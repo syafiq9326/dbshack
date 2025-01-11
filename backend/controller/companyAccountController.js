@@ -1,4 +1,5 @@
 const { CompanyAccount } = require("../seed/seed");
+const { User } = require("../models/users");
 
 // Get CompanyAccount by ID
 // const getCompanyAccountById = async (req, res) => {
@@ -16,7 +17,6 @@ const { CompanyAccount } = require("../seed/seed");
 //     res.status(500).json({ message: "Internal server error" });
 //   }
 // };
-
 
 const getCompanyAccountById = async (req, res) => {
   try {
@@ -40,6 +40,24 @@ const getCompanyAccountById = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+const getCompanyAccounts = async (req, res) => { 
+    try { 
+        const companyAccounts = await CompanyAccount.find({}, {companyName: 1});
+
+        if (!companyAccounts) {
+            return res.status(404).json({ message: "No company accounts found" });
+        }
+        res.status(200).json(companyAccounts)
+    } catch (error) {
+        console.error("Error fetching company accounts:", error.stack);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+
+// Export controller functions
 module.exports = {
-  getCompanyAccountById,
-};
+    getCompanyAccountById, 
+    getCompanyAccounts
+  };
