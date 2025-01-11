@@ -1,6 +1,7 @@
 import React from "react";
 import AuthAvatar from "../../components/landing/Avatar";
 import SummaryTiles from "../../components/landing/SummaryTiles";
+import MyDataTable from "../../components/landing/myDataTable";
 
 const LandingPage = () => {
   return (
@@ -8,7 +9,7 @@ const LandingPage = () => {
       <div className="flex flex-col gap-4 p-4 col-span-full md:col-span-3 lg:col-span-3">
         <AuthAvatar />
         <SummaryTiles />
-        {/* <MyDataTable /> */}
+        <MyDataTable />
       </div>
     </div>
   );
