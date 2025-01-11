@@ -11,7 +11,7 @@ const port = 3001;
 const connectDB = require("./database/mongo"); // Import the connectDB function
 connectDB(); // Initializes the MongoDB connection when the server starts
 
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3001"
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000"
 const allowedOrigins = [FRONTEND_URL]
 
 const corsOptions = {
