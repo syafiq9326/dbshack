@@ -8,7 +8,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         logout(); // Clear user context and localStorage
-        navigate("/login"); // Redirect to login page
+        navigate("/"); // Redirect to login page
     };
 
     return (
