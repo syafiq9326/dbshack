@@ -48,12 +48,13 @@ app.use(bodyParser.json());
 const userRoute = require("./router/userRoute");
 const productRoute = require("./router/productRoute");
 const companyRoute = require("./router/companyRoute");
-
+const requestReceivedRoute = require("./router/requestreceivedRoute")
 
 // list of routes used
 app.use("/users", userRoute); // All /users routes will be handled by userRoutes.js
 app.use("/products", productRoute); // All /products routes will be handled by productRoutes.js
 app.use("/companies", companyRoute); // All /companies routes will be handled by companyRoutes.js
+app.use("/requestreceived",requestReceivedRoute)
 
 app.listen(port, () => {
     console.log(`Backend is running on http://localhost:${port}`);

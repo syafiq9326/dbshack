@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-// Define OutstandingRequest schema
+// Define OutstandingRequest schema, requests made by your company to other companies
 const outstandingRequestSchema = new mongoose.Schema({
     companyId: { type: mongoose.Schema.Types.ObjectId, ref: "CompanyAccount", required: true }, // Ref to initiating company
     requestorCompanyId: { type: mongoose.Schema.Types.ObjectId, ref: "CompanyAccount", required: true }, // Ref to receiving company

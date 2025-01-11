@@ -30,8 +30,8 @@
 
 // -- mongoose version ---
 const User = require("../models/users");
-const jwt = require("jsonwebtoken");
-
+const jwt = require('jsonwebtoken')
+const jwtSecret = "TECH_TRACK_JWT_TOKEN"
 function generateAccessToken(userId) {
   // using userEmail to sign the document, this can be decrypted out of the token from the request.authorization header
   return jwt.sign({ userId }, "TECH_TRACK_JWT_TOKEN", { expiresIn: "1h" }); // Set expiration time appropriately
