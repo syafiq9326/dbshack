@@ -1,5 +1,5 @@
-const { CompanyAccount } = require("../seed/seed");
-const { User } = require("../models/users");
+const CompanyAccount = require("../models/companyaccount");
+const User = require("../models/users");
 
 // Get CompanyAccount by ID
 // const getCompanyAccountById = async (req, res) => {
