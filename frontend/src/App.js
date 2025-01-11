@@ -1,6 +1,4 @@
 import "./App.css";
-import RequestsReceived from "./pages/requestsReceived";
-
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { UserProvider } from "./contexts/userContext";
 // import Navbar from './components/navbar/navbar';
@@ -18,7 +16,6 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/productlist" element={<Productlist />} />
-          <Route path="/requests-received" element={<RequestsReceived />} />
           <Route path="/register" element={<RegisterPage />} />
         </Routes>
         {/* <Navbar /> */}
