@@ -164,9 +164,9 @@ const companyAccountSchema = new mongoose.Schema({
     activeAccount: { type: Boolean, required: true },
     carbonBalance: { type: Number, required: true },
     cashBalance: { type: Number, required: true },
-    outstandingRequests: [
-        { type: mongoose.Schema.Types.ObjectId, ref: "OutstandingRequest" }, // References to OutstandingRequest
-    ],
+    // outstandingRequests: [
+    //     { type: mongoose.Schema.Types.ObjectId, ref: "OutstandingRequest" }, // References to OutstandingRequest
+    // ],
     createdDatetime: { type: Date, default: Date.now },
     updatedDatetime: { type: Date, default: Date.now },
 });
@@ -180,7 +180,7 @@ const outstandingRequestSchema = new mongoose.Schema({
     requestReason: { type: String, required: true },
     requestStatus: { type: String, required: true }, // e.g., Pending, Approved
     requestType: { type: String, required: true },   // e.g., Buy, Sell
-    requestReceived: { type: mongoose.Schema.Types.ObjectId, ref: "RequestReceived" }, // One-to-one with RequestReceived
+    // requestReceived: { type: mongoose.Schema.Types.ObjectId, ref: "RequestReceived" }, // One-to-one with RequestReceived
     createdDatetime: { type: Date, default: Date.now },
     updatedDatetime: { type: Date, default: Date.now },
 });
@@ -194,6 +194,7 @@ const requestReceivedSchema = new mongoose.Schema({
     alertViewDate: { type: Date },
     createdDatetime: { type: Date, default: Date.now },
     updatedDatetime: { type: Date, default: Date.now },
+    companyId: {type:mongoose.Schema.Types.ObjectId,ref:"CompanyAccount",required:true}    
 });
 
 // Define User schema
@@ -275,12 +276,12 @@ const seedDatabase = async () => {
             console.log("Outstanding requests seeded!");
 
             // Link Outstanding Requests to Company Accounts
-            await CompanyAccount.findByIdAndUpdate(existingCompanies[0]?._id, {
-                $push: { outstandingRequests: outstandingRequests[0]._id },
-            });
-            await CompanyAccount.findByIdAndUpdate(existingCompanies[1]?._id, {
-                $push: { outstandingRequests: outstandingRequests[1]._id },
-            });
+            // await CompanyAccount.findByIdAndUpdate(existingCompanies[0]?._id, {
+            //     $push: { outstandingRequests: outstandingRequests[0]._id },
+            // });
+            // await CompanyAccount.findByIdAndUpdate(existingCompanies[1]?._id, {
+            //     $push: { outstandingRequests: outstandingRequests[1]._id },
+            // });
         } else {
             console.log("Outstanding requests already exist. Skipping seeding.");
         }
@@ -296,6 +297,7 @@ const seedDatabase = async () => {
                         "Overdue Request 1: You have yet to approve Kemmer, Cronin and Walter's request to Buy 356 units of carbon at $287.36.",
                     alertStatus: "Viewed",
                     alertViewDate: new Date("2024-06-14 00:03:12"),
+                    companyId: existingCompanies[0]?._id
                 },
                 {
                     requestId: existingRequests[1]?._id,
@@ -304,17 +306,18 @@ const seedDatabase = async () => {
                         "Overdue Request 2: You have yet to approve Techtrek Pte Ltd's request to Sell 200 units of carbon at $500.",
                     alertStatus: "Scheduled",
                     alertViewDate: null,
+                    companyId: existingCompanies[1]?._id
                 },
             ]);
             console.log("Requests received seeded!");
 
             // Link RequestReceived to Outstanding Requests
-            await OutstandingRequest.findByIdAndUpdate(existingRequests[0]?._id, {
-                requestReceived: requestsReceived[0]._id,
-            });
-            await OutstandingRequest.findByIdAndUpdate(existingRequests[1]?._id, {
-                requestReceived: requestsReceived[1]._id,
-            });
+            // await OutstandingRequest.findByIdAndUpdate(existingRequests[0]?._id, {
+            //     requestReceived: requestsReceived[0]._id,
+            // });
+            // await OutstandingRequest.findByIdAndUpdate(existingRequests[1]?._id, {
+            //     requestReceived: requestsReceived[1]._id,
+            // });
         } else {
             console.log("Requests received already exist. Skipping seeding.");
         }
