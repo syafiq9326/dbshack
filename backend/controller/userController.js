@@ -32,9 +32,9 @@
 const User = require("../models/users");
 const jwt = require('jsonwebtoken')
 
-function generateAccessToken(userEmail) {
+function generateAccessToken(userId) {
     // using userEmail to sign the document, this can be decrypted out of the token from the request.authorization header
-    return jwt.sign({ userEmail }, jwtSecret, { expiresIn: '1h' }); // Set expiration time appropriately
+    return jwt.sign({ userId }, jwtSecret, { expiresIn: '1h' }); // Set expiration time appropriately
   }  
 
 // Get all users
@@ -101,13 +101,15 @@ const loginUser = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
+        const token = generateAccessToken(user._id)
+
         // Check if the password matches
         if (user.password !== password) {
             return res.status(401).json({ error: "Invalid password" });
         }
 
         // Login successful
-        res.status(200).json({ message: "Login successful!", user });
+        res.status(200).json({ message: "Login successful!", user, jwt_token:token});
     } catch (err) {
         res.status(500).json({ error: "Failed to log in", details: err.message });
     }
@@ -134,6 +136,32 @@ const getProductsByUser = async (req, res) => {
     }
 };
 
+const registerUser = async(req,res) => {
+    try {
+        const { email, password, name, companyId } = req.body;
+    
+        // Validate request body
+        if (!email || !password) {
+          return res.status(400).json({ message: 'Missing username or password' });
+        }
+    
+        // Check if username already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+          return res.status(400).json({ message: 'Username already exists' });
+        }
+    
+        // Create new user and save it to database
+        const newUser = new User({ email, password, name, companyId});
+        await newUser.save();
+    
+        return res.status(201).json({ message: 'User registration successful' });
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+      }
+}
+
 // -- end of mongoose version ---
 
 
@@ -144,5 +172,6 @@ module.exports = {
     updateUser,
     deleteUser,
     loginUser,
-    getProductsByUser
+    getProductsByUser,
+    registerUser
 };
