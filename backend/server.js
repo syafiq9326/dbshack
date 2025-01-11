@@ -4,8 +4,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require('mongoose')
 var { expressjwt: jwt } = require("express-jwt");
-const bodyParser = require('body-parser');
-const cors = require('cors')
 
 const app = express();
 const port = 3001;
@@ -13,7 +11,7 @@ const port = 3001;
 const connectDB = require("./database/mongo"); // Import the connectDB function
 connectDB(); // Initializes the MongoDB connection when the server starts
 
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000"
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3001"
 const allowedOrigins = [FRONTEND_URL]
 
 const corsOptions = {
@@ -31,7 +29,7 @@ const corsOptions = {
     optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
-app.use(jwt({secret:process.env.JWT_SECRET,algorithms:["HS256"],getToken:(req)=>{
+app.use(jwt({secret:"TECH_TRACK_JWT_TOKEN",algorithms:["HS256"],getToken:(req)=>{
     if (
         req.headers.authorization &&
         req.headers.authorization.split(" ")[0] === "Bearer"
@@ -43,13 +41,8 @@ app.use(jwt({secret:process.env.JWT_SECRET,algorithms:["HS256"],getToken:(req)=>
       return null;
 }}).unless({path:["/users/login","/users/register"]}))
 
-app.use(corsOptions);
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
-
-
-app.listen(port, () => {
-    console.log(`Backend is running on http://localhost:${port}`);
-});
 
 //define routes
 const userRoute = require("./router/userRoute");
@@ -59,5 +52,11 @@ const productRoute = require("./router/productRoute");
 // list of routes used
 app.use("/users", userRoute); // All /users routes will be handled by userRoutes.js
 app.use("/products", productRoute); // All /products routes will be handled by productRoutes.js
+
+app.listen(port, () => {
+    console.log(`Backend is running on http://localhost:${port}`);
+});
+
+
 
 
