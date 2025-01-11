@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-const ReceivedRequest = require("../models/requestsreceived")
 const User = require("../models/users")
 const CompanyAccount = require("../models/companyaccount")
 const jwt = require("jsonwebtoken")
