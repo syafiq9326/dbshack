@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Use navigate for redirection
-import axios from "axios"; // To make API calls
 import { useUser } from "../../contexts/userContext";
-
+import { loginUser } from "../../services/userServices";
 const LoginBox = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,16 +16,12 @@ const LoginBox = () => {
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent form submission refresh
     setError(null); // Clear any previous errors
-
     try {
-      const response = await axios.post("http://localhost:3001/users/login", {
-        email,
-        password,
-      });
-
+      const response = await loginUser(email, password);
       if (response.status === 200) {
+        localStorage.setItem("jwt_token", response.data.jwt_token);
         login(response.data.user._id); // Call login from context
-        navigate("/productlist"); // Navigate to the product list page
+        navigate("/home"); // Navigate to the product list page
       }
     } catch (err) {
       console.error("Login failed:", err.response?.data || err.message);
