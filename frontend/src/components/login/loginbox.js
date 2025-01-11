@@ -34,23 +34,24 @@ const LoginBox = () => {
     }
   };
 
-
   return (
-    <div className="w-full max-w-xl mx-auto bg-white p-8 rounded-xl shadow-lg space-y-6">
+    <div className="w-full max-w-xl p-8 mx-auto space-y-6 bg-white shadow-lg rounded-xl">
       <h2 className="text-2xl font-bold text-center">
         Login first to your account
       </h2>
 
       {error && (
-        <div className="text-red-600 text-center text-sm mb-2">{error}</div>
+        <div className="mb-2 text-sm text-center text-red-600">{error}</div>
       )}
 
       <form onSubmit={handleLogin}>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
           <input
             type="email"
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            className="block w-full p-2 mt-1 border border-gray-300 rounded-md"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -63,13 +64,13 @@ const LoginBox = () => {
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"} // Toggle between text and password
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              className="block w-full p-2 mt-1 border border-gray-300 rounded-md"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <button
               type="button"
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+              className="absolute inset-y-0 right-0 flex items-center pr-3 text-sm leading-5"
               onClick={togglePasswordVisibility}
             >
               {showPassword ? "Hide" : "Show"}
@@ -96,7 +97,7 @@ const LoginBox = () => {
         </div>
       </form>
 
-      <div className="text-center text-sm">
+      <div className="text-sm text-center">
         Don’t have an account?{" "}
         <Link to="/register" className="text-[#0d41fd] hover:underline">
           Signup

@@ -1,5 +1,5 @@
 import React from "react";
-import BasicSelect from "../../components/landing/select";
+import BasicSelect from "../../components/landing/Avatar";
 import LoginBox from "../../components/login/loginbox";
 
 const RequestsReceivedPage = () => {
