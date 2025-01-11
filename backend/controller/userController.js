@@ -30,6 +30,12 @@
 
 // -- mongoose version ---
 const User = require("../models/users");
+const jwt = require('jsonwebtoken')
+
+function generateAccessToken(userEmail) {
+    // using userEmail to sign the document, this can be decrypted out of the token from the request.authorization header
+    return jwt.sign({ userEmail }, jwtSecret, { expiresIn: '1h' }); // Set expiration time appropriately
+  }  
 
 // Get all users
 const getAllUsers = async (req, res) => {
