@@ -5,9 +5,9 @@ const companyAccountSchema = new mongoose.Schema({
     activeAccount: { type: Boolean, required: true },
     carbonBalance: { type: Number, required: true },
     cashBalance: { type: Number, required: true },
-    outstandingRequests: [
-        { type: mongoose.Schema.Types.ObjectId, ref: "OutstandingRequest" }, // References to OutstandingRequest
-    ],
+    // outstandingRequests: [
+    //     { type: mongoose.Schema.Types.ObjectId, ref: "OutstandingRequest" }, // References to OutstandingRequest
+    // ],
     createdDatetime: { type: Date, default: Date.now },
     updatedDatetime: { type: Date, default: Date.now },
 });
