@@ -32,9 +32,9 @@
 const User = require("../models/users");
 const jwt = require('jsonwebtoken')
 
-function generateAccessToken(userEmail) {
+function generateAccessToken(userId) {
     // using userEmail to sign the document, this can be decrypted out of the token from the request.authorization header
-    return jwt.sign({ userEmail }, jwtSecret, { expiresIn: '1h' }); // Set expiration time appropriately
+    return jwt.sign({ userId }, jwtSecret, { expiresIn: '1h' }); // Set expiration time appropriately
   }  
 
 // Get all users
@@ -101,13 +101,15 @@ const loginUser = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
+        const token = generateAccessToken(user._id)
+
         // Check if the password matches
         if (user.password !== password) {
             return res.status(401).json({ error: "Invalid password" });
         }
 
         // Login successful
-        res.status(200).json({ message: "Login successful!", user });
+        res.status(200).json({ message: "Login successful!", user, jwt_token:token});
     } catch (err) {
         res.status(500).json({ error: "Failed to log in", details: err.message });
     }
