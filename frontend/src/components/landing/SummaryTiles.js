@@ -1,11 +1,9 @@
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import Stack from "@mui/material/Stack";
 
 const bull = (
   <Box
@@ -17,27 +15,35 @@ const bull = (
 );
 const cardContents = ["Current Credit Bal", "Current Cash Bal"];
 
-export default function SummaryTiles() {
+export default function SummaryTiles(props) {
   return (
-    <Stack direction="row" spacing={2}>
-      {cardContents.map((content) => (
-        <Card variant="outlined">
-          {" "}
-          <React.Fragment>
-            <CardContent>
-              <Typography
-                gutterBottom
-                sx={{ color: "text.secondary", fontSize: 14 }}
-              >
-                {content}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions>
-          </React.Fragment>
-        </Card>
-      ))}
-    </Stack>
+    props.details && (
+      <Stack direction="row" spacing={2}>
+        {cardContents.map((content) => (
+          <Card key={content} variant="outlined">
+            <React.Fragment>
+              <CardContent>
+                <Typography
+                  gutterBottom
+                  sx={{ color: "text.secondary", fontSize: 14 }}
+                >
+                  {content}
+                </Typography>
+              </CardContent>
+              <CardContent>
+                <Typography
+                  gutterBottom
+                  sx={{ color: "text.secondary", fontSize: 14 }}
+                >
+                  {content === "Current Credit Bal"
+                    ? props.details.carbonBalance
+                    : props.details.cashBalance}
+                </Typography>
+              </CardContent>
+            </React.Fragment>
+          </Card>
+        ))}
+      </Stack>
+    )
   );
 }
