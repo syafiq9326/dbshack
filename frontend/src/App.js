@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import RequestsReceived from './pages/requestsReceived';
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UserProvider } from './contexts/userContext';
@@ -15,6 +16,7 @@ const App = () => {
           <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/productlist" element={<Productlist />} />
+              <Route path="/requests-received" element={<RequestsReceived />} />
           </Routes>
       </Router>
     </UserProvider>
