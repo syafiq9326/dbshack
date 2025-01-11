@@ -2,7 +2,7 @@ import React from "react";
 import BasicSelect from "../../components/landing/select";
 import LoginBox from "../../components/login/loginbox";
 
-const Login = () => {
+const RequestsReceivedPage = () => {
   return (
     <>
       <BasicSelect />
@@ -41,4 +41,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default RequestsReceivedPage;
