@@ -134,6 +134,32 @@ const getProductsByUser = async (req, res) => {
     }
 };
 
+const registerUser = async(req,res) => {
+    try {
+        const { email, password, name, companyId } = req.body;
+    
+        // Validate request body
+        if (!email || !password) {
+          return res.status(400).json({ message: 'Missing username or password' });
+        }
+    
+        // Check if username already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+          return res.status(400).json({ message: 'Username already exists' });
+        }
+    
+        // Create new user and save it to database
+        const newUser = new User({ email, password, name, companyId});
+        await newUser.save();
+    
+        return res.status(201).json({ message: 'User registration successful' });
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+      }
+}
+
 // -- end of mongoose version ---
 
 
@@ -144,5 +170,6 @@ module.exports = {
     updateUser,
     deleteUser,
     loginUser,
-    getProductsByUser
+    getProductsByUser,
+    registerUser
 };
