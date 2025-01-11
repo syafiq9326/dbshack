@@ -8,6 +8,7 @@ const requestReceivedSchema = new mongoose.Schema({
     alertViewDate: { type: Date },
     createdDatetime: { type: Date, default: Date.now },
     updatedDatetime: { type: Date, default: Date.now },
+    companyId: {type:mongoose.Schema.Types.ObjectId,ref:"CompanyAccount",required:true}
 });
 
 const RequestReceived = mongoose.model("RequestReceived", requestReceivedSchema);

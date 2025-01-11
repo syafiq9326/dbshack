@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Use navigate for redirection
-import axios from "axios"; // To make API calls
 import { useUser } from "../../contexts/userContext";
-
+import { loginUser } from "../../services/userServices";
 const LoginBox = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,16 +16,12 @@ const LoginBox = () => {
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent form submission refresh
     setError(null); // Clear any previous errors
-
     try {
-      const response = await axios.post("http://localhost:3001/users/login", {
-        email,
-        password,
-      });
-
+      const response = await loginUser(email, password);
       if (response.status === 200) {
+        localStorage.setItem("jwt_token", response.data.jwt_token);
         login(response.data.user._id); // Call login from context
-        navigate("/productlist"); // Navigate to the product list page
+        navigate("/home"); // Navigate to the product list page
       }
     } catch (err) {
       console.error("Login failed:", err.response?.data || err.message);
@@ -34,23 +29,24 @@ const LoginBox = () => {
     }
   };
 
-
   return (
-    <div className="w-full max-w-xl mx-auto bg-white p-8 rounded-xl shadow-lg space-y-6">
+    <div className="w-full max-w-xl p-8 mx-auto space-y-6 bg-white shadow-lg rounded-xl">
       <h2 className="text-2xl font-bold text-center">
         Login first to your account
       </h2>
 
       {error && (
-        <div className="text-red-600 text-center text-sm mb-2">{error}</div>
+        <div className="mb-2 text-sm text-center text-red-600">{error}</div>
       )}
 
       <form onSubmit={handleLogin}>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
           <input
             type="email"
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            className="block w-full p-2 mt-1 border border-gray-300 rounded-md"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -63,13 +59,13 @@ const LoginBox = () => {
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"} // Toggle between text and password
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              className="block w-full p-2 mt-1 border border-gray-300 rounded-md"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <button
               type="button"
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+              className="absolute inset-y-0 right-0 flex items-center pr-3 text-sm leading-5"
               onClick={togglePasswordVisibility}
             >
               {showPassword ? "Hide" : "Show"}
@@ -96,7 +92,7 @@ const LoginBox = () => {
         </div>
       </form>
 
-      <div className="text-center text-sm">
+      <div className="text-sm text-center">
         Don’t have an account?{" "}
         <Link to="/register" className="text-[#0d41fd] hover:underline">
           Signup

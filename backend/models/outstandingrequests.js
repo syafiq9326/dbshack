@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-// Define OutstandingRequest schema
+// Define OutstandingRequest schema, requests made by your company to other companies
 const outstandingRequestSchema = new mongoose.Schema({
     companyId: { type: mongoose.Schema.Types.ObjectId, ref: "CompanyAccount", required: true }, // Ref to initiating company
     requestorCompanyId: { type: mongoose.Schema.Types.ObjectId, ref: "CompanyAccount", required: true }, // Ref to receiving company
@@ -14,6 +14,18 @@ const outstandingRequestSchema = new mongoose.Schema({
     updatedDatetime: { type: Date, default: Date.now },
 });
 
+// const outstandingRequestSchema = new mongoose.Schema({
+//     id: { type: Number, required: true, unique: true },
+//     companyId: { type: Number, ref: "CompanyAccount", required: true }, // Initiating company
+//     requestorCompanyId: { type: Number, ref: "CompanyAccount", required: true }, // Receiving company
+//     carbonUnitPrice: { type: Number, required: true },
+//     carbonQuantity: { type: Number, required: true },
+//     requestReason: { type: String, required: true },
+//     requestStatus: { type: String, required: true }, // e.g., Pending, Approved, Rejected
+//     requestType: { type: String, required: true },   // e.g., Buy, Sell
+//     createdDatetime: { type: Date, default: Date.now },
+//     updatedDatetime: { type: Date, default: Date.now },
+// });
 
 const OutstandingRequest = mongoose.model("OutstandingRequest", outstandingRequestSchema);
-module.exports = {OutstandingRequest};
+module.exports = OutstandingRequest;

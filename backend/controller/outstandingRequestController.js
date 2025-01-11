@@ -1,5 +1,5 @@
-const {OutstandingRequest} = require('../seed/seed');
-
+const OutstandingRequest = require('../models/outstandingrequests');
+const mongoose = require('mongoose');
 
 // Get all Outstanding Requests by Requestor Company ID
 const getOutstandingRequestsByRequestorId = async (req, res) => {
@@ -11,10 +11,15 @@ const getOutstandingRequestsByRequestorId = async (req, res) => {
       return res.status(400).json({ message: "Requestor Company ID is required" });
     }
 
-    console.log("or:" , OutstandingRequest);
+    // const outstandingRequests = await OutstandingRequest.find({requestorCompanyId})
+
+
     const outstandingRequests = await OutstandingRequest.find({
-      requestorCompanyId,
+      requestorCompanyId: new mongoose.Types.ObjectId(requestorCompanyId),
     }).populate("companyId requestReceived"); // Populate if needed
+
+    console.log("or:", outstandingRequests);
+
 
     if (!outstandingRequests || outstandingRequests.length === 0) {
       return res.status(404).json({ message: "No outstanding requests found" });
