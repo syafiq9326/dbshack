@@ -12,9 +12,8 @@ const { productSchema } = require("./product"); // Import the productSchema
 const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    age: { type: Number, required: true },
-    password: { type: String, required: true }, // Password field
-    products: [productSchema] // Embed products as an array of subdocuments
+    password: { type: String, required: true },
+    companyId: { type: mongoose.Schema.Types.ObjectId, ref: "CompanyAccount" }, // Ref to a company
 });
 
 const User = mongoose.model("User", userSchema); // Represents the 'users' collection
