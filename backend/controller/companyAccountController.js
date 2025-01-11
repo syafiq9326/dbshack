@@ -1,4 +1,6 @@
-const { CompanyAccount } = require("../seed/seed");
+// const { CompanyAccount } = require("../seed/seed");
+const CompanyAccount  = require("../models/companyaccount");
+
 
 // Get CompanyAccount by ID
 // const getCompanyAccountById = async (req, res) => {
@@ -43,3 +45,6 @@ const getCompanyAccountById = async (req, res) => {
 module.exports = {
   getCompanyAccountById,
 };
+
+
+
